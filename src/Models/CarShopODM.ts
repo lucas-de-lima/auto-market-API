@@ -1,5 +1,7 @@
-import { Model, Schema, model, models } from 'mongoose';
+import { Model, Schema, isValidObjectId, model, models } from 'mongoose';
 import ICar from '../Interfaces/ICar';
+import CustomError from '../utils/CustomError';
+import statusCodes from '../Controllers/statusCodes';
 
 class CarShopODM {
   private schema: Schema;
@@ -42,6 +44,20 @@ class CarShopODM {
   public async create(car: ICar): Promise <ICar> {
     const modelTest = await this.model.create({ ...car });    
     return modelTest;
+  }
+
+  public async getAll(): Promise <ICar[]> {
+    const cars = await this.model.find();
+    return cars;
+  }
+
+  public async getById(id: string): Promise <ICar | null> {
+    if (!isValidObjectId(id)) { 
+      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, 'Invalid mongo id'); 
+    }
+
+    const car = await this.model.findById(id);
+    return car;
   }
 }
 export default CarShopODM;
