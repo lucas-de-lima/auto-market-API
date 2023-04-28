@@ -4,6 +4,8 @@ import CustomError from '../utils/CustomError';
 import statusCodes from '../Controllers/statusCodes';
 
 class CarShopODM {
+  private static readonly INVALID_MONGO_ID = 'Invalid mongo id';
+
   private schema: Schema;
   private model: Model<ICar>;
 
@@ -53,7 +55,7 @@ class CarShopODM {
 
   public async getById(id: string): Promise <ICar | null> {
     if (!isValidObjectId(id)) { 
-      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, 'Invalid mongo id'); 
+      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
     }
 
     const car = await this.model.findById(id);
@@ -62,7 +64,7 @@ class CarShopODM {
 
   public async updateById(id: string): Promise <ICar | null> {
     if (!isValidObjectId(id)) { 
-      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, 'Invalid mongo id'); 
+      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
     }
 
     const car = await this.model.findByIdAndUpdate(id);
@@ -71,7 +73,7 @@ class CarShopODM {
 
   public async removeById(id: string): Promise<void> {
     if (!isValidObjectId(id)) { 
-      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, 'Invalid mongo id'); 
+      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
     }
 
     await this.model.findByIdAndDelete(id);
