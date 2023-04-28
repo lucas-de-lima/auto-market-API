@@ -23,12 +23,12 @@ export default class CarsServices {
     const newCar = await carODM.create(car);
     return newCar;
   }
-  
-  //   public update = async (product, id) => {
-  
-  //   };
-  
-  // public remove = async (id) => {
-  
-  // };
+
+  public async updateById(id: string): Promise <ICar | null> {
+    const carODM = new CarShopODM();
+    const car = await carODM.updateById(id);
+
+    if (!car) { throw new CustomError(statusCodes.NOT_FOUND, 'Car not found'); }
+    return car;
+  }
 }

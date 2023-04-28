@@ -59,5 +59,14 @@ class CarShopODM {
     const car = await this.model.findById(id);
     return car;
   }
+
+  public async updateById(id: string): Promise <ICar | null> {
+    if (!isValidObjectId(id)) { 
+      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, 'Invalid mongo id'); 
+    }
+
+    const car = await this.model.findByIdAndUpdate(id);
+    return car;
+  }
 }
 export default CarShopODM;

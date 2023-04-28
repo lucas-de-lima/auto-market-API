@@ -8,5 +8,6 @@ const carsControllers = new CarsControllers();
 carsRouter.post('/', carsControllers.create);
 carsRouter.get('/', carsControllers.getAll);
 carsRouter.get('/:id', carsControllers.getById);
+carsRouter.put('/:id', carsControllers.updateById);
 
 export default carsRouter;
