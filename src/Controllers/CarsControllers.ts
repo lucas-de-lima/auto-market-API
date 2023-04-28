@@ -44,4 +44,16 @@ export default class CarsControllers {
       next(error);
     }
   }
+
+  public async removeById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const carsServices = new CarsServices();
+
+      const car = await carsServices.removeById(id);
+      return res.status(statusCodes.OK).json(car);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

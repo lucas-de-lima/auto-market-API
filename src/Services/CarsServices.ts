@@ -31,4 +31,13 @@ export default class CarsServices {
     if (!car) { throw new CustomError(statusCodes.NOT_FOUND, 'Car not found'); }
     return car;
   }
+
+  public async removeById(id: string): Promise<void> {
+    const carODM = new CarShopODM();
+    try {
+      await carODM.removeById(id);
+    } catch (error) {
+      throw new CustomError(statusCodes.NOT_FOUND, 'Car not found');
+    }
+  }
 }

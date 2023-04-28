@@ -9,5 +9,6 @@ carsRouter.post('/', carsControllers.create);
 carsRouter.get('/', carsControllers.getAll);
 carsRouter.get('/:id', carsControllers.getById);
 carsRouter.put('/:id', carsControllers.updateById);
+carsRouter.delete('/:id', carsControllers.removeById);
 
 export default carsRouter;
