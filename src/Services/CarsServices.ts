@@ -26,9 +26,9 @@ export default class CarsServices {
     return newCar;
   }
 
-  public async updateById(id: string): Promise <ICar | null> {
+  public async updateById(id: string, carUpdate: Partial<ICar>): Promise <ICar | null> {
     const carODM = new CarShopODM();
-    const car = await carODM.updateById(id);
+    const car = await carODM.updateById(id, carUpdate);
 
     if (!car) { throw new CustomError(statusCodes.NOT_FOUND, CarsServices.CAR_NOT_FOUND); }
     return car;

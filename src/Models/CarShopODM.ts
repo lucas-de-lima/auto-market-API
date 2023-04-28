@@ -62,12 +62,18 @@ class CarShopODM {
     return car;
   }
 
-  public async updateById(id: string): Promise <ICar | null> {
+  public async updateById(id: string, carUpdate: Partial<ICar>): Promise <ICar | null> {
     if (!isValidObjectId(id)) { 
       throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
     }
 
-    const car = await this.model.findByIdAndUpdate(id);
+    const car = await this.model.findByIdAndUpdate(
+      id,
+      carUpdate,
+      { new: true },
+    );
+    console.log(car);
+    
     return car;
   }
 

@@ -35,10 +35,11 @@ export default class CarsControllers {
 
   public async updateById(req: Request, res: Response, next: NextFunction) {
     try {
+      const carUpdate = req.body;
       const { id } = req.params;
       const carsServices = new CarsServices();
 
-      const car = await carsServices.updateById(id);
+      const car = await carsServices.updateById(id, carUpdate);
       return res.status(statusCodes.OK).json(car);
     } catch (error) {
       next(error);
