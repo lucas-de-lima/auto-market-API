@@ -1,16 +1,12 @@
-import { Model, Schema, isValidObjectId, model, models } from 'mongoose';
+import { Schema } from 'mongoose';
 import ICar from '../Interfaces/ICar';
-import CustomError from '../utils/CustomError';
-import statusCodes from '../Controllers/statusCodes';
+// import CustomError from '../utils/CustomError';
+// import statusCodes from '../Controllers/statusCodes';
+import ShopODM from './ShopODM';
 
-class CarShopODM {
-  private static readonly INVALID_MONGO_ID = 'Invalid mongo id';
-
-  private schema: Schema;
-  private model: Model<ICar>;
-
+export default class CarShopODM extends ShopODM<ICar> {
   constructor() {
-    this.schema = new Schema<ICar>(
+    const schema = new Schema<ICar>(
       {
         id: { type: String, required: false },
         model: { type: String, required: true },
@@ -39,50 +35,48 @@ class CarShopODM {
         },
       },
     );
+    super(schema, 'Car');
 
-    this.model = models.Cars || model('Cars', this.schema);
+    // this.model = models.Cars || model('Cars', this.schema);
   }
 
-  public async create(car: ICar): Promise <ICar> {
-    const modelTest = await this.model.create({ ...car });    
-    return modelTest;
-  }
+  // public async create(car: ICar): Promise <ICar> {
+  //   const modelTest = await this.model.create({ ...car });    
+  //   return modelTest;
+  // }
 
-  public async getAll(): Promise <ICar[]> {
-    const cars = await this.model.find();
-    return cars;
-  }
+  // public async getAll(): Promise <ICar[]> {
+  //   const cars = await this.model.find();
+  //   return cars;
+  // }
 
-  public async getById(id: string): Promise <ICar | null> {
-    if (!isValidObjectId(id)) { 
-      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
-    }
+  // public async getById(id: string): Promise <ICar | null> {
+  //   if (!isValidObjectId(id)) { 
+  //     throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
+  //   }
 
-    const car = await this.model.findById(id);
-    return car;
-  }
+  //   const car = await this.model.findById(id);
+  //   return car;
+  // }
 
-  public async updateById(id: string, carUpdate: Partial<ICar>): Promise <ICar | null> {
-    if (!isValidObjectId(id)) { 
-      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
-    }
+  // public async updateById(id: string, carUpdate: Partial<ICar>): Promise <ICar | null> {
+  //   if (!isValidObjectId(id)) { 
+  //     throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
+  //   }
 
-    const car = await this.model.findByIdAndUpdate(
-      id,
-      carUpdate,
-      { new: true },
-    );
-    console.log(car);
-    
-    return car;
-  }
+  //   const car = await this.model.findByIdAndUpdate(
+  //     id,
+  //     carUpdate,
+  //     { new: true },
+  //   );    
+  //   return car;
+  // }
 
-  public async removeById(id: string): Promise<void> {
-    if (!isValidObjectId(id)) { 
-      throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
-    }
+  // public async removeById(id: string): Promise<void> {
+  //   if (!isValidObjectId(id)) { 
+  //     throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
+  //   }
 
-    await this.model.findByIdAndDelete(id);
-  }
+  //   await this.model.findByIdAndDelete(id);
+  // }
 }
-export default CarShopODM;
