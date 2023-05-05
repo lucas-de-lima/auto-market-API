@@ -22,19 +22,19 @@ export default class MotorcycleShopODM extends ShopODM<IMotorcycle> {
             const transformed = {
               id: ret._id,
               buyValue: ret.buyValue,
-              seatsQty: ret.seatsQty,
-              doorsQty: ret.doorsQty,
               color: ret.color,
               model: ret.model,
               year: ret.year,
               status: ret.status,
+              engineCapacity: ret.engineCapacity,
+              category: ret.category,
             };
             return transformed;
           },
         },
       },
     );
-    super(schema, 'Car');
+    super(schema, 'motorcycles');
     
     // this.model = models.Cars || model('Cars', this.schema);
   }

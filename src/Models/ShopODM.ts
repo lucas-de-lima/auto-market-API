@@ -67,8 +67,8 @@ export default abstract class ShopODM<T> {
   }
 
   public async getAll(): Promise <T[]> {
-    const cars = await this.model.find();
-    return cars;
+    const response = await this.model.find();
+    return response;
   }
 
   public async getById(id: string): Promise <T | null> {
@@ -76,7 +76,7 @@ export default abstract class ShopODM<T> {
       throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, ShopODM.INVALID_MONGO_ID); 
     }
 
-    const car = await this.model.findById(id);
-    return car;
+    const response = await this.model.findById(id);
+    return response;
   }
 }
