@@ -1,10 +1,8 @@
 import { Schema } from 'mongoose';
 import ICar from '../Interfaces/ICar';
-// import CustomError from '../utils/CustomError';
-// import statusCodes from '../Controllers/statusCodes';
-import ShopODM from './ShopODM';
+import AbstractODM from './AbstractODM';
 
-export default class CarShopODM extends ShopODM<ICar> {
+export default class CarShopODM extends AbstractODM<ICar> {
   constructor() {
     const schema = new Schema<ICar>(
       {
@@ -36,47 +34,5 @@ export default class CarShopODM extends ShopODM<ICar> {
       },
     );
     super(schema, 'Car');
-
-    // this.model = models.Cars || model('Cars', this.schema);
   }
-
-  // public async create(car: ICar): Promise <ICar> {
-  //   const modelTest = await this.model.create({ ...car });    
-  //   return modelTest;
-  // }
-
-  // public async getAll(): Promise <ICar[]> {
-  //   const cars = await this.model.find();
-  //   return cars;
-  // }
-
-  // public async getById(id: string): Promise <ICar | null> {
-  //   if (!isValidObjectId(id)) { 
-  //     throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
-  //   }
-
-  //   const car = await this.model.findById(id);
-  //   return car;
-  // }
-
-  // public async updateById(id: string, carUpdate: Partial<ICar>): Promise <ICar | null> {
-  //   if (!isValidObjectId(id)) { 
-  //     throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
-  //   }
-
-  //   const car = await this.model.findByIdAndUpdate(
-  //     id,
-  //     carUpdate,
-  //     { new: true },
-  //   );    
-  //   return car;
-  // }
-
-  // public async removeById(id: string): Promise<void> {
-  //   if (!isValidObjectId(id)) { 
-  //     throw new CustomError(statusCodes.UNPROCESSABLE_ENTITY, CarShopODM.INVALID_MONGO_ID); 
-  //   }
-
-  //   await this.model.findByIdAndDelete(id);
-  // }
 }

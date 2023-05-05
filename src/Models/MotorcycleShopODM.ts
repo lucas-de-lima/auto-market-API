@@ -1,9 +1,9 @@
 import { Schema } from 'mongoose';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 
-import ShopODM from './ShopODM';
+import AbstractODM from './AbstractODM';
 
-export default class MotorcycleShopODM extends ShopODM<IMotorcycle> {
+export default class MotorcycleShopODM extends AbstractODM<IMotorcycle> {
   constructor() {
     const schema = new Schema<IMotorcycle>(
       {
@@ -35,7 +35,5 @@ export default class MotorcycleShopODM extends ShopODM<IMotorcycle> {
       },
     );
     super(schema, 'motorcycles');
-    
-    // this.model = models.Cars || model('Cars', this.schema);
   }
 }
