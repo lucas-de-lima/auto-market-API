@@ -1,6 +1,6 @@
 import { Model, Schema, UpdateQuery, isValidObjectId, model, models } from 'mongoose';
 import CustomError from '../utils/CustomError';
-import statusCodes from '../Controllers/statusCodes';
+import statusCodes from '../utils/statusCodes';
 import IVehicle from '../Interfaces/IVehicle';
 
 export default abstract class ShopODM<T> {

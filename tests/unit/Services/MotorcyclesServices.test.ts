@@ -5,7 +5,7 @@ import MotorcyclesServices from '../../../src/Services/MotorcyclesServices';
 import MotorcycleShopODM from '../../../src/Models/MotorcycleShopODM';
 import CustomError from '../../../src/utils/CustomError';
 import IMotorcycle from '../../../src/Interfaces/IMotorcycle';
-import statusCodes from '../../../src/Controllers/statusCodes';
+import statusCodes from '../../../src/utils/statusCodes';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

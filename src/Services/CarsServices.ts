@@ -1,4 +1,4 @@
-import statusCodes from '../Controllers/statusCodes';
+import statusCodes from '../utils/statusCodes';
 import ICar from '../Interfaces/ICar';
 import CarShopODM from '../Models/CarShopODM';
 import CustomError from '../utils/CustomError';

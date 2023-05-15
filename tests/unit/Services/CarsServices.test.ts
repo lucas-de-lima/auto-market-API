@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import CarsServices from '../../../src/Services/CarsServices';
 import CarShopODM from '../../../src/Models/CarShopODM';
 import CustomError from '../../../src/utils/CustomError';
-import statusCodes from '../../../src/Controllers/statusCodes';
+import statusCodes from '../../../src/utils/statusCodes';
 import ICar from '../../../src/Interfaces/ICar';
 
 const CAR_NOT_FOUND = 'Car not found';

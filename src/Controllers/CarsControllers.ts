@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import CarsServices from '../Services/CarsServices';
-import statusCodes from './statusCodes';
+import statusCodes from '../utils/statusCodes';
 import ICar from '../Interfaces/ICar';
 
 export default class CarsControllers {

@@ -1,4 +1,4 @@
-import statusCodes from '../Controllers/statusCodes';
+import statusCodes from '../utils/statusCodes';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 import MotorcycleShopODM from '../Models/MotorcycleShopODM';
 import CustomError from '../utils/CustomError';

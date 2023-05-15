@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import statusCodes from './statusCodes';
+import statusCodes from '../utils/statusCodes';
 import MotorcyclesServices from '../Services/MotorcyclesServices';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 
