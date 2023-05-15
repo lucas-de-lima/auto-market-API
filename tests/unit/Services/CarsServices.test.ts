@@ -1,10 +1,13 @@
 import sinon from 'sinon';
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import CarsServices from '../../../src/Services/CarsServices';
 import CarShopODM from '../../../src/Models/CarShopODM';
 import CustomError from '../../../src/utils/CustomError';
 import statusCodes from '../../../src/utils/statusCodes';
 import ICar from '../../../src/Interfaces/ICar';
+
+chai.use(chaiAsPromised);
 
 const CAR_NOT_FOUND = 'Car not found';
 
