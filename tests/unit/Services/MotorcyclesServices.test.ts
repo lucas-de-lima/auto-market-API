@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import chai from 'chai';
+import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import MotorcyclesServices from '../../../src/Services/MotorcyclesServices';
 import MotorcycleShopODM from '../../../src/Models/MotorcycleShopODM';
@@ -8,7 +8,7 @@ import IMotorcycle from '../../../src/Interfaces/IMotorcycle';
 import statusCodes from '../../../src/utils/statusCodes';
 
 chai.use(chaiAsPromised);
-const { expect } = chai;
+// const { expect } = chai;
 
 const MOTORCYCLE_NOT_FOUND = 'Motorcycle not found';
 const mockMotorcycles: IMotorcycle[] = [
