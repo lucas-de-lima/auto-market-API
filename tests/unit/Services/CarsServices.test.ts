@@ -1,13 +1,10 @@
 import sinon from 'sinon';
-import chai, { expect } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import { expect, assert } from 'chai';
 import CarsServices from '../../../src/Services/CarsServices';
 import CarShopODM from '../../../src/Models/CarShopODM';
 import CustomError from '../../../src/utils/CustomError';
 import statusCodes from '../../../src/utils/statusCodes';
 import ICar from '../../../src/Interfaces/ICar';
-
-chai.use(chaiAsPromised);
 
 const CAR_NOT_FOUND = 'Car not found';
 
@@ -67,17 +64,19 @@ describe('CarsServices', function () {
     it('should throw a CustomError when car is not found(1)', async function () {
       const getByIdStub = sinon.stub(CarShopODM.prototype, 'getById').resolves(null);
 
-      await expect(new CarsServices().getById('1')).to.be.rejectedWith(CustomError);
-      const carService = new CarsServices();
-
+      let errorCaught = false;
       try {
-        await carService.getById('999');
+        await new CarsServices().getById('999');
       } catch (error) {
+        errorCaught = true;
         const customError = error as CustomError;
         expect(customError.status).to.equal(statusCodes.NOT_FOUND);
         expect(customError.message).to.equal(CAR_NOT_FOUND);
-        getByIdStub.restore();
       }
+
+      assert.isTrue(errorCaught, 'Expected error to be caught(1)');
+
+      getByIdStub.restore();
     });
   });
 
@@ -113,17 +112,17 @@ describe('CarsServices', function () {
         doorsQty: 4,
         seatsQty: 5,
       };
-
+  
       const updateByIdStub = sinon.stub(CarShopODM.prototype, 'updateById').resolves(car);
-
+  
       const result = await new CarsServices().updateById('1', car);
-
+  
       expect(result).to.deep.equal(car);
-
+  
       updateByIdStub.restore();
     });
-
-    it('should throw a CustomError when car is not found', async function () {
+  
+    it('should throw a CustomError when car is not found(2)', async function () {
       const updateByIdStub = sinon.stub(CarShopODM.prototype, 'updateById').resolves(null);
       const car: ICar = {
         id: '1',
@@ -134,9 +133,19 @@ describe('CarsServices', function () {
         doorsQty: 4,
         seatsQty: 5,
       };
-
-      await expect(new CarsServices().updateById('1', car)).to.be.rejectedWith(CustomError);
-
+  
+      let errorCaught = false;
+      try {
+        await new CarsServices().updateById('1', car);
+      } catch (error) {
+        errorCaught = true;
+        const customError = error as CustomError;
+        expect(customError.status).to.equal(statusCodes.NOT_FOUND);
+        expect(customError.message).to.equal(CAR_NOT_FOUND);
+      }
+  
+      assert.isTrue(errorCaught, 'Expected error to be caught');
+  
       updateByIdStub.restore();
     });
   });
@@ -144,25 +153,36 @@ describe('CarsServices', function () {
   describe('removeById', function () {
     let removeByIdStub: sinon.SinonStub<[id: string], Promise<ICar | null>>;
     let carService: CarsServices;
-  
+
     beforeEach(function () {
       removeByIdStub = sinon.stub(CarShopODM.prototype, 'removeById');
       carService = new CarsServices();
     });
-  
+
     afterEach(function () {
       removeByIdStub.restore();
     });
-  
+
     it('should remove a car by id', async function () {
       await carService.removeById('1');
       sinon.assert.calledWith(removeByIdStub, '1');
     });
-  
-    it('should throw a CustomError when car is not found', async function () {
-      removeByIdStub.throws(new CustomError(statusCodes.NOT_FOUND, CAR_NOT_FOUND));
-  
-      await expect(carService.removeById('1')).to.be.rejectedWith(CustomError, CAR_NOT_FOUND);
+
+    it('should throw a CustomError when car is not found(3)', async function () {
+      removeByIdStub.rejects(new CustomError(statusCodes.NOT_FOUND, CAR_NOT_FOUND));
+
+      let errorCaught = false;
+      try {
+        await carService.removeById('1');
+      } catch (error) {
+        errorCaught = true;
+        const customError = error as CustomError;
+        expect(customError.status).to.equal(statusCodes.NOT_FOUND);
+        expect(customError.message).to.equal(CAR_NOT_FOUND);
+      }
+
+      assert.isTrue(errorCaught, 'Expected error to be caught');
+
       sinon.assert.calledWith(removeByIdStub, '1');
     });
   });

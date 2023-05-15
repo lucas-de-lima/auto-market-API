@@ -1,15 +1,13 @@
 import sinon from 'sinon';
-import chai, { expect } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import { expect, assert } from 'chai';
 import MotorcyclesServices from '../../../src/Services/MotorcyclesServices';
 import MotorcycleShopODM from '../../../src/Models/MotorcycleShopODM';
 import CustomError from '../../../src/utils/CustomError';
 import IMotorcycle from '../../../src/Interfaces/IMotorcycle';
 import statusCodes from '../../../src/utils/statusCodes';
 
-chai.use(chaiAsPromised);
-// const { expect } = chai;
-
+const assertErrorMessage = 'Expected error to be caught';
+const INVALID_MONGO_ID = 'Invalid mongo id';
 const MOTORCYCLE_NOT_FOUND = 'Motorcycle not found';
 const mockMotorcycles: IMotorcycle[] = [
   {
@@ -70,19 +68,18 @@ describe('MotorcyclesServices', function () {
       const getByIdStub = sinon
         .stub(MotorcycleShopODM.prototype, 'getById')
         .returns(Promise.resolve(null));
-      await expect(new MotorcyclesServices().getById('1')).to.be.rejectedWith(
-        CustomError,
-      );
-      const motorcycleService = new MotorcyclesServices();
-
+      let errorCaught = false;
+    
       try {
-        await motorcycleService.getById('12345');
+        await new MotorcyclesServices().getById('12345');
       } catch (error) {
+        errorCaught = true;
         const customError = error as CustomError;
         expect(customError.status).to.equal(statusCodes.NOT_FOUND);
         expect(customError.message).to.equal(MOTORCYCLE_NOT_FOUND);
       }
-
+    
+      assert.isTrue(errorCaught, assertErrorMessage);
       getByIdStub.restore();
     });
   });
@@ -137,9 +134,7 @@ describe('MotorcyclesServices', function () {
       const getByIdStub = sinon
         .stub(MotorcycleShopODM.prototype, 'getById')
         .returns(Promise.resolve(null));
-      await expect(new MotorcyclesServices().getById('1')).to.be.rejectedWith(
-        CustomError,
-      );
+      let errorCaught = false;
       const updatedMotorcycle: IMotorcycle = {
         engineCapacity: 1000,
         category: 'Street',
@@ -150,17 +145,16 @@ describe('MotorcyclesServices', function () {
         status: true,
       };
 
-      const motorcycleService = new MotorcyclesServices();
-      const INVALID_MONGO_ID = 'Invalid mongo id';
-
       try {
-        await motorcycleService.updateById('999', updatedMotorcycle);
+        await new MotorcyclesServices().updateById('999', updatedMotorcycle);
       } catch (error) {
+        errorCaught = true;
         const customError = error as CustomError;
         expect(customError.status).to.equal(statusCodes.UNPROCESSABLE_ENTITY);
         expect(customError.message).to.equal(INVALID_MONGO_ID);
       }
 
+      assert.isTrue(errorCaught, assertErrorMessage);
       getByIdStub.restore();
     });
   });
@@ -184,10 +178,19 @@ describe('MotorcyclesServices', function () {
     });
   
     it('should throw a CustomError when motorcycle is not found', async function () {
-      removeByIdStub.throws(new CustomError(statusCodes.NOT_FOUND, MOTORCYCLE_NOT_FOUND));
+      removeByIdStub.rejects(new CustomError(statusCodes.NOT_FOUND, MOTORCYCLE_NOT_FOUND));
   
-      await expect(motorcyclesServices.removeById('1'))
-        .to.be.rejectedWith(CustomError, MOTORCYCLE_NOT_FOUND);
+      let errorCaught = false;
+      try {
+        await motorcyclesServices.removeById('1');
+      } catch (error) {
+        errorCaught = true;
+        const customError = error as CustomError;
+        expect(customError.status).to.equal(statusCodes.NOT_FOUND);
+        expect(customError.message).to.equal(MOTORCYCLE_NOT_FOUND);
+      }
+  
+      assert.isTrue(errorCaught, assertErrorMessage);
       sinon.assert.calledWith(removeByIdStub, '1');
     });
   });
